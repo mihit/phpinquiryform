@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="utf-8">
+		<title>お問い合わせフォーム</title>
+		<link rel="stylesheet" href="./css/form.css" type="text/css">
+		<script src="./js/form.js"></script>
+	</head>
+	<body>
+		<div class="main">
+		<h1>お問い合わせフォーム</h1>
+			{% if errorObjs is not empty %}
+				<span class="error">
+					正しく入力されていない項目があります。
+					<ul>
+					{% for errorObj in errorObjs %}
+					<li>{{ errorObj.cause }}</li>
+					{% endfor %}
+					</ul>
+				</span>
+			{% endif %}
+			<form action="./" method="post">
+
+				<span>
+					<div class="itemtitle">
+						法人 or 個人
+					</div>
+					<div>
+						{% if post.userType is null %}
+							{% set userType = "company" %}
+						{% else %}
+							{% set userType = post.userType %}
+						{% endif %}
+						<label for="company"><input id="company" name="userType" type="radio" value="company" {% if userType == "company" %}checked{% endif %}>法人</label>
+						<label for="individual"><input id="individual" name="userType" type="radio" value="individual" {% if userType == "individual" %}checked{% endif %}>個人</label>
+					</div>
+				</span>
+
+				<span class="individual">
+					<!-- 個人用 -->
+					<div class="itemtitle">
+						氏名
+					</div>
+					<div>
+						<input type="text" name="name" size="30" value="{{ post.name }}" placeholder="例：山田 花子（必須）">
+					</div>
+				</span>
+				<span class="company">
+				<!-- 法人用 -->
+					<div class="itemtitle">
+						会社名
+					</div>
+					<div>
+						<input type="text" name="companyName" size="30" value="{{ post.companyName }}" placeholder="例：株式会社インクワイアリ（必須）">
+					</div>
+				</span>
+				<span class="company">
+				<!-- 法人用 -->
+					<div class="itemtitle">
+						部署名
+					</div>
+					<div>
+						<input type="text" name="dept" size="30" value="{{ post.dept }}" placeholder="例：システム部（必須）">
+					</div>
+				</span>
+				<span class="company">
+				<!-- 法人用 -->
+					<div class="itemtitle">
+						ご担当者名
+					</div>
+					<div>
+						<input type="text" name="personnelName" size="30" value="{{ post.personnelName }}" placeholder="例：鈴木 一郎（必須）">
+					</div>
+				</span>
+				<span>
+				<!-- 共通 -->
+					<div class="itemtitle">
+						メールアドレス
+					</div>
+					<div>
+						<input type="email" size="30" name="email" value="{{ post.email }}" placeholder="例：mail@domain.co.jp（必須）">
+					</div>
+				</span>
+				<span>
+				<!-- 共通 -->
+					{% if post.inquiryType is null %}
+						{% set inquiryType = "弊社について" %}
+					{% else %}
+						{% set inquiryType = post.inquiryType %}
+					{% endif %}
+					<div class="itemtitle">
+						問い合わせ種別
+					</div>
+					<div>
+						<select name="inquiryType">
+							<option value="弊社について" {% if inquiryType == "弊社について" %}selected{% endif %}>弊社について</option>
+							<option value="採用について" {% if inquiryType == "採用について" %}selected{% endif %}>採用について</option>
+							<option value="その他" {% if inquiryType == "その他" %}selected{% endif %}>その他</option>
+						</select>
+					</div>
+				</span>
+				<span>
+				<!-- 共通 -->
+					<div class="itemtitle">
+						問い合わせ内容
+					</div>
+					<div>
+						<textarea name="inquiryBody" size="50" value="{{ post.inquiryBody }}" placeholder="問い合わせ内容を記入（必須）">{{ post.inquiryBody }}</textarea>
+					</div>
+				</span>
+				
+				<input type="hidden" name="transitionId" value="input">
+				<span class="bottom_buttons">
+				<input type="submit" value="確認画面へ">
+				</span>
+			</form>
+		</div>
+	</body>
+</html>
+	

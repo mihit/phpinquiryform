@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="utf-8">
+		<title>お問い合わせフォーム 確認画面</title>
+		<link rel="stylesheet" href="./css/form.css" type="text/css">
+		<script src="./js/form.js"></script>
+	</head>
+	<body>
+		<div class="main">
+		<h1>お問い合わせフォーム　確認画面</h1>
+		<form action="./" method="post">
+			<span>
+				<div class="itemtitle">
+					法人 or 個人
+				</div>
+				<div>
+					{% if post.userType == "individual" %}個人
+					{% else %}法人
+					{% endif %}
+				</div>
+			</span>
+			<!-- 個人用 -->
+			{% if post.userType == "individual" %}
+			<span>
+				<div class="itemtitle">
+					氏名
+				</div>
+				<div>
+					{{ post.name|e }}
+				</div>
+			</span>
+			{% endif %}
+			<!-- 法人用 -->
+			{% if post.userType == "company" %}
+			<span>
+				<div class="itemtitle">
+					会社名
+				</div>
+				<div>
+					{{ post.companyName|e }}
+				</div>
+			</span>
+			<span>
+				<div class="itemtitle">
+					部署名
+				</div>
+				<div>
+					{{ post.dept|e }}
+				</div>
+			</span>
+			<span>
+				<div class="itemtitle">
+					ご担当者名
+				</div>
+				<div>
+					{{ post.personnelName|e }}
+				</div>
+			</span>
+			{% endif %}
+			<!-- 共通 -->
+			<span>
+				<div class="itemtitle">
+					メールアドレス
+				</div>
+				<div>
+					{{ post.email|e }}
+				</div>
+			</span>
+			<span>
+				<div class="itemtitle">
+					問い合わせ種別
+				</div>
+				<div>
+					{{ post.inquiryType|e }}
+				</div>
+			</span>
+			<span>
+				<div class="itemtitle">
+					問い合わせ内容
+				</div>
+				<div>
+					{{ post.inquiryBody|e }}
+				</div>
+			</span>
+			
+			<input type="hidden" name="userType" value="{{ post.userType }}">
+			<input type="hidden" name="name" value="{{ post.name }}">
+			<input type="hidden" name="companyName" value="{{ post.companyName }}">
+			<input type="hidden" name="dept" value="{{ post.dept }}">
+			<input type="hidden" name="personnelName" value="{{ post.personnelName }}">
+			<input type="hidden" name="inquiryType" value="{{ post.inquiryType }}">
+			<input type="hidden" name="email" value="{{ post.email }}">
+			<input type="hidden" name="inquiryBody" value="{{ post.inquiryBody }}">
+
+			<input type="hidden" name="transitionId" value="confirm">
+			<span class="bottom_buttons">
+				<input type="submit" value="問い合わせを送る">
+				<p><a href="#" onclick="history.back();">修正する</a></p>
+			</span>
+		</form>
+		</div>
+	</body>
+</html>
